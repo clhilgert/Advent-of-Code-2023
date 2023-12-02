@@ -1,12 +1,13 @@
 import fs from 'fs';
+import { getInput } from '../utils';
 
 const readFile = (file: string) => {
   const lines = fs.readFileSync(file, 'utf-8').trim().split('\n');
   return lines;
 };
 
-const partOne = (file: string) => {
-  const lines = readFile(file);
+const partOne = async () => {
+  const lines = await getInput(2);
   let gameNumber = 1;
   let total = 0;
   const colors: Record<string, number> = { r: 12, g: 13, b: 14 };
@@ -38,8 +39,8 @@ const partOne = (file: string) => {
   console.log(total);
 };
 
-const partTwo = (file: string) => {
-  const lines = readFile(file);
+const partTwo = async () => {
+  const lines = await getInput(2);
   let total = 0;
 
   lines.map((line) => {
@@ -74,4 +75,5 @@ const partTwo = (file: string) => {
   console.log(total);
 };
 
-partTwo('./day2/input.txt');
+await partOne();
+partTwo();

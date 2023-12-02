@@ -1,31 +1,52 @@
-import fs from 'fs';
+import { getInput } from '../utils';
 
-const example1 = 'day1/example1.txt',
-  example2 = 'day1/example2.txt',
-  input = 'day1/input.txt';
+const input = await getInput(1);
 
-const partOne = (filePath: string) => {
-  const strs = fs.readFileSync(filePath, 'utf-8').trim().split('\n');
-  let total = 0;
+const nummable = (char: string) => !Number.isNaN(+char);
 
-  for (const str of strs) {
-    let l = 0,
-      r = str.length - 1,
-      first,
-      last;
-    while (!first || !last) {
-      if (!isNaN(str[l])) {
-        first = str[l];
-      }
-      if (!isNaN(str[r])) {
-        last = str[r];
-      }
-      if (!first) l++;
-      if (!last) r--;
-    }
-    total += Number(first + last);
-  }
-  console.log(total);
+const filterNums = (str: string) =>
+  str
+    .split('')
+    .reduce((temp, char) => (nummable(char) ? temp + char : temp), '') || '0';
+
+const endsAsNumber = (str: string) => Number(str[0] + str[str.length - 1]);
+
+const bookendAdderReducer = (acc: number, str: string) =>
+  endsAsNumber(str) + acc;
+
+const part1 = input.map(filterNums).reduce(bookendAdderReducer, 0);
+
+const numMap = {
+  one: 1,
+  two: 2,
+  three: 3,
+  four: 4,
+  five: 5,
+  six: 6,
+  seven: 7,
+  eight: 8,
+  nine: 9,
 };
 
-partOne(input);
+const mapTextToNumber = (str: string) => {
+  let temp = '';
+  for (let i = 0; i < str.length; i++) {
+    if (nummable(str[i])) {
+      temp += str[i];
+    } else {
+      for (let j = i; j < str.length; j++) {
+        const window = str.slice(i, j + 1) as keyof typeof numMap;
+        if (numMap[window]) {
+          temp += numMap[window];
+          break;
+        }
+      }
+    }
+  }
+  return temp;
+};
+
+const part2 = input.map(mapTextToNumber).reduce(bookendAdderReducer, 0);
+
+console.log(part1);
+console.log(part2);
