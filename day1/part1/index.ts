@@ -1,6 +1,6 @@
 import fs from 'fs';
 
-const strs = fs.readFileSync('day1/input.txt', 'utf-8').trim().split('\n');
+const strs = fs.readFileSync('day1/part1/input.txt', 'utf-8').trim().split('\n');
 
 let total = 0;
 
