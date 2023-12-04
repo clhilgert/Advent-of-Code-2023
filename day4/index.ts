@@ -19,13 +19,13 @@ const partOne = (input: string[]) => {
     const cards = line
       .slice(colonIndex + 1)
       .trim()
-      .split('|')
+      .split('|');
     const winNums = new Set(cards[0].trim().split(' ').filter(Boolean));
     const nums = cards[1].trim().split(' ').filter(Boolean);
     let score = 0;
     for (const num of nums) {
       if (winNums.has(num)) {
-        score === 0 ? score = 1 : score *= 2;
+        score === 0 ? (score = 1) : (score *= 2);
       }
     }
     total += score;
@@ -33,3 +33,30 @@ const partOne = (input: string[]) => {
   return total;
 };
 
+const partTwo = (input: string[]) => {
+  const cardArr = new Array(input.length).fill(1, 0);
+  input.map((line, index) => {
+    const colonIndex = line.indexOf(':');
+    const cards = line
+      .slice(colonIndex + 1)
+      .trim()
+      .split('|');
+    const winNums = new Set(cards[0].trim().split(' ').filter(Boolean));
+    const nums = cards[1].trim().split(' ').filter(Boolean);
+    let numWins = 0;
+    for (const num of nums) {
+      if (winNums.has(num)) {
+        numWins++;
+      }
+    }
+    for (let i = 1; i <= numWins; i++) {
+      cardArr[index + i] += cardArr[index];
+    }
+  }, 0);
+  const res = cardArr.reduce((a, c) => {
+    return a + c;
+  });
+  console.log(res);
+};
+
+partTwo(lines);
