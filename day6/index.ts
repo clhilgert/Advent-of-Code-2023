@@ -19,7 +19,8 @@ const partOne = (input: string[]) => {
     }
   });
 
-  const times = parsedValues[0], distances = parsedValues[1];
+  const times = parsedValues[0],
+    distances = parsedValues[1];
   const resArr = [];
   for (let i = 0; i < times.length; i++) {
     const t = times[i];
@@ -36,8 +37,29 @@ const partOne = (input: string[]) => {
   }
   const total = resArr.reduce((a, c) => {
     return a * c;
-  })
+  });
   return total;
 };
 
-console.log(partOne(input));
+const partTwo = (input: string[]) => {
+  const parsed: number[] = [];
+
+  input.forEach((line) => {
+    const numbers = line.match(/\d+/g);
+    if (numbers) {
+      const combined = numbers.join('');
+      parsed.push(parseInt(combined, 10));
+    }
+  });
+  const t = parsed[0],
+    d = parsed[1];
+  let count = 0;
+  for (let i = 1; i < t; i++) {
+    const x = t - i;
+    const res = i * x;
+    if (res > d) {
+      count++;
+    }
+  }
+  return count;
+};
